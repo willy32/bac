@@ -1,0 +1,140 @@
+#!/usr/bin/python
+
+################################################################Functions
+quit = False;
+
+def Start():
+    print ("BAC -- Blood Alcohol Content(Widmark Formula) -- By: Willy");
+    print ("");
+    choice = raw_input("Choose an option:\n1) Calculate BAC\n2) About\n\n0) Exit\nNumber: ");
+    if(choice == "1"):
+        Calculate();
+    
+    if(choice == "2"):
+        About();
+    
+    if(choice == "0"):
+        return;
+    
+    if(quit != True):
+        Start();
+    
+    else:
+        return;
+
+def Calculate():
+    alcohol = ["0 0", "0 0", "0 0"];
+
+    grams = 0.0;
+    weight = 0.0;
+    gender = 0.0;
+    bac = 0.00;
+    time = 0.0;
+    feeling = "none";
+    driving = "not allowed";
+    drivehours = 0.0;
+
+    choice = raw_input("Are you Male (M) or Female (F)?\nGender: ");
+    if(choice.lower() == "m" or choice.lower() == "male"):
+        gender = 0.68;
+        print ("Gender set to: " + str(gender));
+        print ("");
+    
+    if(choice.lower() == "f" or choice.lower() == "female"):
+        gender = 0.55;
+        print ("Gender set to: " + str(gender));
+        print ("");
+    
+    if(choice.lower() != "m" and choice.lower() != "male" and choice.lower() != "f" and choice.lower() != "female"):
+        Calculate();
+        return;
+    
+    choice = raw_input("Drinks consumed -- Use this format (ml %-ml %-ml %) e.g 330 5.5-50 40-100 20\nCunsumed: ");
+    alcohol = choice.split('-');
+    for i in alcohol:
+        x = i.split(' ');
+        grams += (float(x[0]) * (float(x[1]) * 0.01)) * 0.789;
+        print ("Grams set to: " + str(grams) + "g");
+        print ("");
+    
+    choice = raw_input("Enter your weight (kg).\nWeight: ");
+    weight = float(choice) * 1000;
+
+    bac = (grams / (weight * gender)) * 100;
+    time = bac / 0.015;
+    if(bac >= 0.05):
+        driving = "not allowed";
+        drivehours = (bac - 0.05) / 0.015;
+    else:
+        driving = "allowed";
+        drivehours = 0.0;
+
+    if(bac <= 0.0009):
+        feeling = "None. You are completely sober.";
+    if(bac >= 0.001 and bac <= 0.029):
+        feeling = "Appears normal.";
+    if(bac >= 0.03 and bac <= 0.059): 
+        feeling = "Mild euphoria(happines)\nRelaxation\nJoyousness(feeling of joy)\nTalkativeness(slurring)\nDecreased inhibition(decreases concentration).";
+    if(bac >= 0.06 and bac <= 0.099):
+        feeling = "Blunted feelings(numed feelings)\nReduced sensitivity to pain\nEuphoria(happines)\nDisinhibition(inability to filter e.g speech)\nExtraversion(\"extraverted\").";
+    if(bac >= 0.1 and bac <= 0.199): 
+        feeling = "Over-expression(\"mood swings\")\nBoisterousness(hell-raising/chaos)\nPossibility of nausea and vomiting.";
+    if(bac >= 0.2 and bac <= 0.299): 
+        feeling = "Nausea\nVomiting\nEmotional swings\nAnger or sadness\nPartial loss of understanding\nImpaired sensations(numed feelings)\nDecreased libido(decreased sex-drive)\nPossibility of stupor(only responds to physical stimulation e.g pain & touching).";
+    if(bac >= 0.3 and bac <= 0.399): 
+        feeling = "Stupor(only responds to physical stimulation e.g pain & touching)\nCentral nervous system depression\nLoss of understanding\nLapses in and out of consciousness\nLow possibility of death.";
+    if(bac >= 0.4 and bac <= 0.5): 
+        feeling = "Severe central nervous system depression\nComa\nPossibility of death.";
+    if(bac > 0.5): 
+        feeling = "High possibility of DEATH."
+
+    print ("");
+    print ("Weight set to: " + str(weight) + "g");
+    print ("---------------------------------------------------------------------------");
+    print ("BAC: " + str(bac) + "%");
+    print ("Driving: " + driving + " (" + str(drivehours) +  "h until allowed).")
+    print ("Time before sober(sience last drink): " + str(time) + "h\n");
+    print ("Behavior/Feeling:\n" + feeling);
+    print ("---------------------------------------------------------------------------");
+    raw_input("Press enter to continue...");
+    print ("");
+    return;
+
+def About():
+    print ("");
+    print ("BAC(Widmark) formula: B = ( ag / ( wg * g ) ) * 100");
+    print ("B: BAC(Blood alcohol content)")
+    print ("ag = Alcohol consumed in grams");
+    print ("wg = Body weight in grams");
+    print ("g = gender (female: 0.55 & male: 0.68)");
+    print ("");
+    raw_input("Press enter to continue...");
+    print ("");
+    print ("Alcohol Levels Behavior:");
+    print ("BAC 0 - 0.0009:\nNone. You are completely sober.");
+    print ("");
+    print ("BAC 0.001 - 0.029:\nAppears normal.");
+    print ("");
+    print ("BAC 0.03 - 0.059:\nMild euphoria(happines)\nRelaxation\nJoyousness(feeling of joy)\nTalkativeness(slurring)\nDecreased inhibition(decreases concentration).");
+    print ("");
+    print ("BAC 0.06 - 0.099:\nBlunted feelings(numed feelings)\nReduced sensitivity to pain\nEuphoria(happines)\nDisinhibition(inability to filter e.g speech)\nExtraversion(\"extraverted\").");
+    print ("");
+    print ("BAC 0.1 - 0.199:\nOver-expression(\"mood swings\")\nBoisterousness(hell-raising/chaos)\nPossibility of nausea and vomiting.");
+    print ("");
+    print ("BAC 0.2 - 0.299:\nNausea\nVomiting\nEmotional swings\nAnger or sadness\nPartial loss of understanding\nImpaired sensations(numed feelings)\nDecreased libido(decreased sex-drive)\nPossibility of stupor(only responds to physical stimulation e.g pain & touching).");
+    print ("");
+    print ("BAC 0.3 - 0.399:\nStupor(only responds to physical stimulation e.g pain & touching)\nCentral nervous system depression\nLoss of understanding\nLapses in and out of consciousness\nLow possibility of death.");
+    print ("");
+    print ("BAC 0.4 - 0.5:\nSevere central nervous system depression\nComa\nPossibility of death.");
+    print ("");
+    print ("BAC 0.5 -> INF:\nHigh possibility of DEATH.");
+    print ("");
+    raw_input("Press enter to continue...");
+    print ("");
+    return;
+
+################################################################
+
+Start();
+
+print ("Closing!");
